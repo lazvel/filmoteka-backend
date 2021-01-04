@@ -50,6 +50,7 @@ export class UserService extends TypeOrmCrudService<User> {
         const user = await this.user.findOne({
             username: username
         });
+        
         if (user) {
             return user;
         }

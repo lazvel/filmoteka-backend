@@ -94,8 +94,6 @@ export class MovieService extends TypeOrmCrudService<Movie> {
         
         );
 
-        builder.where('movie.genre = :genre', { genre: data.genre });
-
         if (data.keywords && data.keywords.length > 0) {
             builder.andWhere(`(
                                 movie.name LIKE :kw OR 

@@ -3,12 +3,12 @@ import * as Validator from 'class-validator';
 export class MovieSearchDto {
     @Validator.IsOptional()
     @Validator.IsString()
-    @Validator.Length(2, 128)
+    @Validator.Length(0, 128)
     keywords: string;
 
-    @Validator.IsNotEmpty()
+    @Validator.IsOptional()
     @Validator.IsString()
-    @Validator.Length(2, 64)
+    @Validator.Length(0, 64)
     genre: string;
 
     @Validator.IsOptional()

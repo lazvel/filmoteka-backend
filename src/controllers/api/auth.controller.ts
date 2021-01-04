@@ -65,13 +65,13 @@ export class AuthController {
         return await this.userService.register(data);
     }
 
-    @Post('user/login') // localhost:3303/auth/login
+    @Post('user/login') // localhost:3003/auth/login
     async doUserLogin(@Body() data: LoginUserDto, @Req() req: Request): Promise<LoginInfoDto | ApiResponse> {
         const user = await this.userService.getByUsernamme(data.username);
         
         if (!user) {
             return new Promise(resolve => {
-                resolve(new ApiResponse('error', -3001));
+                resolve(new ApiResponse('error', -3001, "Unkown username"));
             });
         }
 
@@ -80,7 +80,7 @@ export class AuthController {
         const passwordHashString = passwordHash.digest('hex').toUpperCase();
 
         if (user.passwordHash !== passwordHashString) {
-            return new Promise(resolve => resolve(new ApiResponse('error', -3002)));
+            return new Promise(resolve => resolve(new ApiResponse('error', -3002, "Bad password!")));
         }
 
         // token -> json {adminId, username, exp, ip, ua}
@@ -89,7 +89,6 @@ export class AuthController {
         jwtData.id = user.userId;
         jwtData.username = user.username;
         jwtData.exp = this.getDatePlus(60 * 5);
-
         jwtData.ip = req.ip.toString();
         jwtData.ua = req.headers["user-agent"];
 
@@ -172,8 +171,8 @@ export class AuthController {
         let token: string = jwt.sign(jwtData.toPlainObject(), jwtSecret);
     
         const responseObject = new LoginInfoDto(
-            jwtData.id,
-            jwtData.username,
+            jwtRefreshData.id,
+            jwtRefreshData.username,
             token,
             data.token,
             this.getIsoDate(jwtRefreshData.exp),
