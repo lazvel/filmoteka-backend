@@ -42,6 +42,9 @@ export class OrderService {
         newOrder.cartId = cartId;
         const savedOrder = await this.order.save(newOrder);
 
+        cart.createdAt = new Date();
+        await this.cart.save(cart);
+
         return await this.order.findOne(savedOrder.orderId);
     }
 
@@ -57,6 +60,32 @@ export class OrderService {
         });
     }
 
+    async getAllByUserId(userId: number) {
+        return await this.order.find({
+            where: {
+                userId: userId,
+            },  
+            relations: [
+                "cart",
+                "cart.user",
+                "cart.cartMovies",
+                "cart.cartMovies.movie",
+                "cart.cartMovies.movie.moviePrices",
+            ],
+        });
+    }
+
+    async getAll() {
+        return await this.order.find({
+            relations: [
+                "cart",
+                "cart.user",
+                "cart.cartMovies",
+                "cart.cartMovies.movie",
+                "cart.cartMovies.movie.moviePrices",
+            ],
+        });
+    }
     async changeStatus(orderId: number, newStatus: "paid" | "not paid" | "waiting") {
         const order = await this.getById(orderId);
 

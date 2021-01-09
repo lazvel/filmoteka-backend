@@ -97,7 +97,8 @@ export class MovieService extends TypeOrmCrudService<Movie> {
         if (data.keywords && data.keywords.length > 0) {
             builder.andWhere(`(
                                 movie.name LIKE :kw OR 
-                                movie.description LIKE :kw
+                                movie.genre LIKE :kw OR
+                                movie.description LIKE :kw 
                                 )`, 
                                 {kw: '%' + data.keywords.trim() + '%'});
         }
