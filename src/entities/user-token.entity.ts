@@ -9,7 +9,7 @@ import {
   import * as Validator from 'class-validator';
   
 
-  @Entity("user_token")
+  @Entity("user_tokenn")
   export class UserToken {
     @PrimaryGeneratedColumn({ 
       type: "int", 
