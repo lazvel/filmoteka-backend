@@ -51,8 +51,8 @@ export class MovieService extends TypeOrmCrudService<Movie> {
         }
 
         existingMovie.name = data.name;
-        existingMovie.description = data.description;
         existingMovie.genre = data.genre;
+        existingMovie.description = data.description;
         existingMovie.year = data.year;
         existingMovie.rating = data.rating;
 

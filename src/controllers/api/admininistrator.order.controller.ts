@@ -11,7 +11,14 @@ export class AdministratorOrderController {
     constructor(
         private orderService: OrderService,
     ) {}
-    
+
+    @Get()
+    @UseGuards(RoleCheckerGuard)
+    @AllowToRoles('administrator')
+    async getAll(): Promise<Order[]> {
+        return await this.orderService.getAll();
+    }
+
     @Get(':id')
     @UseGuards(RoleCheckerGuard)
     @AllowToRoles('administrator')

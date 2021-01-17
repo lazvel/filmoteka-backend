@@ -6,14 +6,14 @@ export class EditMovieDto {
     @Validator.Length(5, 64)
     name: string;
 
+    @Validator.IsString()
+    @Validator.Length(3, 64)
+    genre: string;
+
     @Validator.IsNotEmpty()
     @Validator.IsString()
     @Validator.Length(32, 10000)
     description: string;
-
-    @Validator.IsString()
-    @Validator.Length(3, 64)
-    genre: string;
 
     @Validator.IsNotEmpty()
     @Validator.IsString()
